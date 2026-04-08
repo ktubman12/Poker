@@ -144,7 +144,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             <button 
                 className="action-btn primary" 
                 onClick={onDeal}
-                disabled={gamePhase === 'holding' || gamePhase === 'doubling'}
+                disabled={gamePhase === 'doubling'}
             >
                 {gamePhase === 'holding' ? <><IconZap /> DRAW</> : 'DEAL'}
             </button>
