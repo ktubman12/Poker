@@ -13,7 +13,7 @@ import {
 } from './utils/pokerLogic';
 
 function App() {
-  const [credits, setCredits] = useState(4460);
+  const [credits, setCredits] = useState(10000);
   const [currentBet, setCurrentBet] = useState(5);
   const [hand, setHand] = useState<(Card | null)[]>([null, null, null, null, null]);
   const [deck, setDeck] = useState<Card[]>([]);
