@@ -28,7 +28,7 @@ const SuitSVG = ({ suit, size = 24 }: { suit: string, size?: number }) => {
   );
   if (suit === 'clubs') return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C13.5 2 15 3.5 15 5C15 6.1 14.2 7.1 13 7.7C15.2 8.2 17 10.2 17 12.5C17 15 15 17 12.5 17H11.5C9 17 7 15 7 12.5C7 10.2 8.8 8.2 11 7.7C9.8 7.1 9 6.1 9 5C9 3.5 10.5 2 12 2M10 22V18H14V22H10Z" />
+      <path d="M12 2a4 4 0 0 1 4 4 4 4 0 0 1-1.92 3.42A5 5 0 1 1 19 14.5c0 2.41-1.7 4.43-4 4.89V22h-6v-2.61c-2.3-.46-4-2.48-4-4.89a5 5 0 1 1 4.92-5.08A4 4 0 0 1 8 6a4 4 0 0 1 4-4z" />
     </svg>
   );
   return null;
