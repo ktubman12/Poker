@@ -9,6 +9,8 @@ interface ControlBarProps {
   onBetMin: () => void;
   onBetMax: () => void;
   onDeal: () => void;
+  onCycleDenom: () => void;
+  denomination: string;
   gamePhase: 'betting' | 'holding' | 'gameover';
 }
 
@@ -48,6 +50,8 @@ export const ControlBar: React.FC<ControlBarProps> = ({
   onBetMin,
   onBetMax,
   onDeal,
+  onCycleDenom,
+  denomination,
   gamePhase
 }) => {
   return (
@@ -66,7 +70,13 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             colorClass="text-gradient-gold"
         />
         <div className="center-actions">
-             <div className="multiplier-badge glass-panel">5¢</div>
+             <div 
+                className="multiplier-badge glass-panel clickable" 
+                onClick={onCycleDenom}
+                title="Change Denomination"
+             >
+                {denomination}
+             </div>
         </div>
         <InfoModule 
             label="CREDITS" 

@@ -21,6 +21,13 @@ function App() {
   const [gamePhase, setGamePhase] = useState<'betting' | 'holding' | 'gameover'>('betting');
   const [winAmount, setWinAmount] = useState(0);
   const [winningHand, setWinningHand] = useState<HandType | null>(null);
+  const [denomIndex, setDenomIndex] = useState(0);
+  const denominations = ['5¢', '25¢', '$1', '$5', '$10'];
+
+  const handleCycleDenom = () => {
+    if (gamePhase !== 'betting' && gamePhase !== 'gameover') return;
+    setDenomIndex(prev => (prev + 1) % denominations.length);
+  };
 
   const handleBetUp = () => {
     if (gamePhase !== 'betting' && gamePhase !== 'gameover') return;
@@ -157,6 +164,8 @@ function App() {
             onBetMin={handleBetMin}
             onBetMax={handleBetMax}
             onDeal={handleDeal}
+            onCycleDenom={handleCycleDenom}
+            denomination={denominations[denomIndex]}
             gamePhase={gamePhase}
           />
         </footer>
