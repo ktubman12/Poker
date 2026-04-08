@@ -87,21 +87,21 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             <button 
                 className="action-btn secondary" 
                 onClick={onBetUp}
-                disabled={gamePhase !== 'betting'}
+                disabled={gamePhase !== 'betting' && gamePhase !== 'gameover'}
             >
                 BET UP
             </button>
             <button 
                 className="action-btn secondary" 
                 onClick={onBetMin}
-                disabled={gamePhase !== 'betting'}
+                disabled={gamePhase !== 'betting' && gamePhase !== 'gameover'}
             >
                 MIN BET
             </button>
             <button 
                 className="action-btn secondary" 
                 onClick={onBetMax}
-                disabled={gamePhase !== 'betting'}
+                disabled={gamePhase !== 'betting' && gamePhase !== 'gameover'}
             >
                 MAX BET
             </button>

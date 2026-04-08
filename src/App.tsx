@@ -23,17 +23,35 @@ function App() {
   const [winningHand, setWinningHand] = useState<HandType | null>(null);
 
   const handleBetUp = () => {
-    if (gamePhase !== 'betting') return;
+    if (gamePhase !== 'betting' && gamePhase !== 'gameover') return;
+    if (gamePhase === 'gameover') {
+        setWinningHand(null);
+        setWinAmount(0);
+        setHand([null, null, null, null, null]);
+        setGamePhase('betting');
+    }
     setCurrentBet(prev => (prev >= 100 ? 5 : prev + 5));
   };
 
   const handleBetMin = () => {
-    if (gamePhase !== 'betting') return;
+    if (gamePhase !== 'betting' && gamePhase !== 'gameover') return;
+    if (gamePhase === 'gameover') {
+        setWinningHand(null);
+        setWinAmount(0);
+        setHand([null, null, null, null, null]);
+        setGamePhase('betting');
+    }
     setCurrentBet(5);
   };
 
   const handleBetMax = () => {
-    if (gamePhase !== 'betting') return;
+    if (gamePhase !== 'betting' && gamePhase !== 'gameover') return;
+    if (gamePhase === 'gameover') {
+        setWinningHand(null);
+        setWinAmount(0);
+        setHand([null, null, null, null, null]);
+        setGamePhase('betting');
+    }
     setCurrentBet(100);
   };
 
