@@ -26,7 +26,22 @@ function App() {
 
   const handleCycleDenom = () => {
     if (gamePhase !== 'betting' && gamePhase !== 'gameover') return;
-    setDenomIndex(prev => (prev + 1) % denominations.length);
+    
+    const denomValues = [0.05, 0.25, 1, 5, 10];
+    const currentCash = credits * denomValues[denomIndex];
+    
+    const nextIndex = (denomIndex + 1) % denominations.length;
+    const nextDenomValue = denomValues[nextIndex];
+    
+    // Scale credits to maintain the same cash value
+    const nextCredits = Math.floor(currentCash / nextDenomValue);
+    
+    setDenomIndex(nextIndex);
+    setCredits(nextCredits);
+    
+    // Ensure current bet doesn't exceed new credit total or remain at zero
+    // We try to keep the same scale (increment by 5) but cap it at 100 or the new total
+    setCurrentBet(prev => Math.min(prev, Math.max(5, nextCredits))); 
   };
 
   const handleBetUp = () => {
