@@ -1,0 +1,76 @@
+.modern-app {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+.layout-grid {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+.logo .accent {
+    color: var(--accent-gold);
+}
+.stat-pill {
+    padding: 6px 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-radius: 100px;
+}
+
+.game-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.announcement-window {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+.win-alert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.win-label {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+    letter-spacing: 0.05em;
+}
+.win-sub {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-emerald);
+}
+
+.game-footer {
+    margin-top: auto;
+}
+
+.win-alert {
+    animation: winPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes winPop {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
