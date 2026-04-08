@@ -6,6 +6,7 @@ interface ControlBarProps {
   currentBet: number;
   credits: number;
   onBetUp: () => void;
+  onBetMin: () => void;
   onBetMax: () => void;
   onDeal: () => void;
   gamePhase: 'betting' | 'holding' | 'gameover';
@@ -44,6 +45,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
   currentBet,
   credits,
   onBetUp,
+  onBetMin,
   onBetMax,
   onDeal,
   gamePhase
@@ -88,6 +90,13 @@ export const ControlBar: React.FC<ControlBarProps> = ({
                 disabled={gamePhase !== 'betting'}
             >
                 BET UP
+            </button>
+            <button 
+                className="action-btn secondary" 
+                onClick={onBetMin}
+                disabled={gamePhase !== 'betting'}
+            >
+                MIN BET
             </button>
             <button 
                 className="action-btn secondary" 

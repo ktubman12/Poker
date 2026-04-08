@@ -27,6 +27,11 @@ function App() {
     setCurrentBet(prev => (prev >= 100 ? 5 : prev + 5));
   };
 
+  const handleBetMin = () => {
+    if (gamePhase !== 'betting') return;
+    setCurrentBet(5);
+  };
+
   const handleBetMax = () => {
     if (gamePhase !== 'betting') return;
     setCurrentBet(100);
@@ -131,6 +136,7 @@ function App() {
             currentBet={currentBet}
             credits={credits}
             onBetUp={handleBetUp}
+            onBetMin={handleBetMin}
             onBetMax={handleBetMax}
             onDeal={handleDeal}
             gamePhase={gamePhase}
