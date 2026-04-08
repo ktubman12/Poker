@@ -10,9 +10,11 @@ interface ControlBarProps {
   onBetMax: () => void;
   onDeal: () => void;
   onCycleDenom: () => void;
+  onDouble: () => void;
+  onCollect: () => void;
   denomination: string;
   denomValue: number;
-  gamePhase: 'betting' | 'holding' | 'gameover';
+  gamePhase: 'betting' | 'holding' | 'gameover' | 'doubling';
 }
 
 const IconTrophy = () => (
@@ -52,6 +54,8 @@ export const ControlBar: React.FC<ControlBarProps> = ({
   onBetMax,
   onDeal,
   onCycleDenom,
+  onDouble,
+  onCollect,
   denomination,
   denomValue,
   gamePhase
@@ -120,16 +124,29 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             >
                 MAX BET
             </button>
-            
+
+            {gamePhase === 'gameover' && winAmount > 0 && (
+                <button 
+                    className="action-btn secondary glow" 
+                    onClick={onDouble}
+                >
+                    DOUBLE
+                </button>
+            )}
+            {gamePhase === 'doubling' && (
+                <button 
+                    className="action-btn secondary" 
+                    onClick={onCollect}
+                >
+                    COLLECT
+                </button>
+            )}
             <button 
-                className={`action-btn primary ${gamePhase === 'holding' ? 'drawing' : ''}`}
+                className="action-btn primary" 
                 onClick={onDeal}
+                disabled={gamePhase === 'holding' || gamePhase === 'doubling'}
             >
-                {gamePhase === 'holding' ? (
-                  <><IconZap /> DRAW</>
-                ) : (
-                  'DEAL'
-                )}
+                {gamePhase === 'holding' ? <><IconZap /> DRAW</> : 'DEAL'}
             </button>
         </div>
       </div>

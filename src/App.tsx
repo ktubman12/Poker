@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { PayTable } from './components/PayTable';
 import { CardBoard } from './components/CardBoard';
 import { ControlBar } from './components/ControlBar';
+import { DoubleDown } from './components/DoubleDown';
 import './App.css';
 import { 
   createDeck, 
@@ -9,7 +10,8 @@ import {
   evaluateHand, 
   PAYTABLE, 
   Card, 
-  HandType 
+  HandType,
+  RANKS
 } from './utils/pokerLogic';
 
 function App() {
@@ -18,11 +20,17 @@ function App() {
   const [hand, setHand] = useState<(Card | null)[]>([null, null, null, null, null]);
   const [deck, setDeck] = useState<Card[]>([]);
   const [heldIndices, setHeldIndices] = useState<Set<number>>(new Set());
-  const [gamePhase, setGamePhase] = useState<'betting' | 'holding' | 'gameover'>('betting');
+  const [gamePhase, setGamePhase] = useState<'betting' | 'holding' | 'gameover' | 'doubling'>('betting');
   const [winAmount, setWinAmount] = useState(0);
   const [winningHand, setWinningHand] = useState<HandType | null>(null);
   const [denomIndex, setDenomIndex] = useState(0);
   const denominations = ['5¢', '25¢', '$1', '$5', '$10'];
+
+  // Double Down states
+  const [doubleDealerCard, setDoubleDealerCard] = useState<Card | null>(null);
+  const [doublePlayerCards, setDoublePlayerCards] = useState<(Card | null)[]>([null, null, null, null]);
+  const [doubleResult, setDoubleResult] = useState<'win' | 'loss' | 'tie' | null>(null);
+  const [chosenIndex, setChosenIndex] = useState<number | null>(null);
 
   const handleCycleDenom = () => {
     if (gamePhase !== 'betting' && gamePhase !== 'gameover') return;
@@ -141,6 +149,50 @@ function App() {
     });
   };
 
+  const handleDoubleStart = () => {
+    const newDeck = shuffle(createDeck());
+    setDoubleDealerCard(newDeck[0]);
+    setDoublePlayerCards(newDeck.slice(1, 5));
+    setDoubleResult(null);
+    setChosenIndex(null);
+    setGamePhase('doubling');
+  };
+
+  const handleDoubleChoice = (index: number) => {
+    if (doubleResult || !doubleDealerCard) return;
+    
+    setChosenIndex(index);
+    const playerCard = doublePlayerCards[index]!;
+    const dealerRankIndex = RANKS.indexOf(doubleDealerCard.rank);
+    const playerRankIndex = RANKS.indexOf(playerCard.rank);
+
+    if (playerRankIndex > dealerRankIndex) {
+      setDoubleResult('win');
+      const newWin = winAmount * 2;
+      setCredits(prev => prev + winAmount); // Add another winAmount to double the previous addition
+      setWinAmount(newWin);
+    } else if (playerRankIndex < dealerRankIndex) {
+      setDoubleResult('loss');
+      setCredits(prev => prev - winAmount); // Lose what was added
+      setWinAmount(0);
+      setTimeout(() => {
+        handleCollect();
+      }, 1500);
+    } else {
+      setDoubleResult('tie');
+      setTimeout(() => {
+        handleDoubleStart(); // Restart on push
+      }, 1500);
+    }
+  };
+
+  const handleCollect = () => {
+    setHand([null, null, null, null, null]);
+    setWinningHand(null);
+    setWinAmount(0);
+    setGamePhase('betting');
+  };
+
   return (
     <div className="modern-app">
       <div className="layout-grid">
@@ -155,19 +207,35 @@ function App() {
           <PayTable currentBet={currentBet} winningHand={winningHand} />
           
           <div className="announcement-window">
-              {winningHand && (
+              {winningHand && gamePhase !== 'doubling' && (
                 <div className="win-alert">
                     <span className="win-label">{winningHand}</span>
                     <span className="win-sub">+{winAmount} CREDITS</span>
                 </div>
               )}
+              {gamePhase === 'doubling' && (
+                <div className="win-alert">
+                    <span className="win-label">GAMBLE</span>
+                    <span className="win-sub">{winAmount} CREDITS</span>
+                </div>
+              )}
           </div>
 
-          <CardBoard 
-            cards={hand} 
-            heldIndices={heldIndices} 
-            onToggleIndex={toggleHold}
-          />
+          {gamePhase === 'doubling' ? (
+            <DoubleDown 
+              dealerCard={doubleDealerCard}
+              playerCards={doublePlayerCards}
+              onChoice={handleDoubleChoice}
+              result={doubleResult}
+              chosenIndex={chosenIndex}
+            />
+          ) : (
+            <CardBoard 
+              cards={hand} 
+              heldIndices={heldIndices} 
+              onToggleIndex={toggleHold}
+            />
+          )}
         </main>
 
         <footer className="game-footer glass-panel">
@@ -180,6 +248,8 @@ function App() {
             onBetMax={handleBetMax}
             onDeal={handleDeal}
             onCycleDenom={handleCycleDenom}
+            onDouble={handleDoubleStart}
+            onCollect={handleCollect}
             denomination={denominations[denomIndex]}
             denomValue={[0.05, 0.25, 1, 5, 10][denomIndex]}
             gamePhase={gamePhase}

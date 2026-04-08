@@ -1,0 +1,101 @@
+.double-down-modern {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    position: relative;
+    overflow: hidden;
+    min-height: 400px;
+}
+
+.double-header {
+    text-align: center;
+}
+
+.double-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent-gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+}
+
+.double-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.double-grid {
+    display: flex;
+    gap: 64px;
+    align-items: center;
+}
+
+.section-label {
+    display: block;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.player-cards-grid {
+    display: flex;
+    gap: 16px;
+}
+
+.choice-card-wrapper {
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.choice-card-wrapper:hover:not(.is-chosen) {
+    transform: translateY(-10px);
+}
+
+.double-result-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+    animation: fadeIn 0.3s ease both;
+}
+
+.result-text {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.win .result-text {
+    color: var(--accent-emerald);
+}
+
+.loss .result-text {
+    color: var(--accent-rose);
+}
+
+.tie .result-text {
+    color: var(--text-primary);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 900px) {
+    .double-grid {
+        flex-direction: column;
+        gap: 32px;
+    }
+}
