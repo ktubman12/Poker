@@ -188,6 +188,7 @@ function App() {
 
   const handleCollect = () => {
     setHand([null, null, null, null, null]);
+    setHeldIndices(new Set());
     setWinningHand(null);
     setWinAmount(0);
     setGamePhase('betting');
