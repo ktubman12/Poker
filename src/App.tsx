@@ -166,6 +166,7 @@ function App() {
             onDeal={handleDeal}
             onCycleDenom={handleCycleDenom}
             denomination={denominations[denomIndex]}
+            denomValue={[0.05, 0.25, 1, 5, 10][denomIndex]}
             gamePhase={gamePhase}
           />
         </footer>

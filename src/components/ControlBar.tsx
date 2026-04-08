@@ -11,6 +11,7 @@ interface ControlBarProps {
   onDeal: () => void;
   onCycleDenom: () => void;
   denomination: string;
+  denomValue: number;
   gamePhase: 'betting' | 'holding' | 'gameover';
 }
 
@@ -52,8 +53,12 @@ export const ControlBar: React.FC<ControlBarProps> = ({
   onDeal,
   onCycleDenom,
   denomination,
+  denomValue,
   gamePhase
 }) => {
+  const formatCurrency = (amount: number) => {
+    return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  };
   return (
     <div className="control-bar-modern">
       <div className="modules-row">
@@ -79,8 +84,8 @@ export const ControlBar: React.FC<ControlBarProps> = ({
              </div>
         </div>
         <InfoModule 
-            label="CREDITS" 
-            value={credits.toLocaleString()} 
+            label="BALANCE" 
+            value={formatCurrency(credits * denomValue)} 
             icon={IconCoins} 
             colorClass="text-primary"
         />
