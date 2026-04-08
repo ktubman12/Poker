@@ -24,12 +24,12 @@ function App() {
 
   const handleBetUp = () => {
     if (gamePhase !== 'betting') return;
-    setCurrentBet(prev => (prev % 5) + 1);
+    setCurrentBet(prev => (prev >= 100 ? 5 : prev + 5));
   };
 
   const handleBetMax = () => {
     if (gamePhase !== 'betting') return;
-    setCurrentBet(5);
+    setCurrentBet(100);
   };
 
   const handleDeal = useCallback(() => {
@@ -64,7 +64,19 @@ function App() {
       }
 
       const result = evaluateHand(finalHand as Card[]);
-      const payout = PAYTABLE[result][currentBet - 1];
+      
+      // Calculate payout based on 5-unit increments
+      const units = currentBet / 5;
+      let payoutMultiplier = 0;
+      
+      if (units <= 5) {
+          payoutMultiplier = PAYTABLE[result][Math.max(0, Math.floor(units) - 1)];
+      } else {
+          // Linear scaling for bets above 25 based on the level 5 bonus
+          payoutMultiplier = PAYTABLE[result][4] * (units / 5);
+      }
+      
+      const payout = Math.floor(payoutMultiplier * 5); // Total credits won
 
       setHand(finalHand);
       setWinningHand(result !== 'NONE' ? result : null);

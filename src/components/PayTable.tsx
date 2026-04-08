@@ -32,16 +32,21 @@ export const PayTable: React.FC<PayTableProps> = ({ currentBet, winningHand }) =
               {hand}
             </div>
             <div className="payout-columns">
-              {[1, 2, 3, 4, 5].map((betLevel) => (
-                <div
-                  key={`${hand}-${betLevel}`}
-                  className={`payout-item 
-                    ${currentBet === betLevel ? 'active-col' : ''} 
-                    ${winningHand === hand && currentBet === betLevel ? 'win-active' : ''}`}
-                >
-                  {PAYTABLE[hand][betLevel - 1]}
-                </div>
-              ))}
+              {[5, 10, 15, 20, 25].map((betLevel) => {
+                const isMaxCol = betLevel === 25;
+                const isActive = (currentBet === betLevel) || (isMaxCol && currentBet > 25);
+                
+                return (
+                  <div
+                    key={`${hand}-${betLevel}`}
+                    className={`payout-item 
+                      ${isActive ? 'active-col' : ''} 
+                      ${winningHand === hand && isActive ? 'win-active' : ''}`}
+                  >
+                    {PAYTABLE[hand][(betLevel / 5) - 1] * 5}
+                  </div>
+                );
+              })}
             </div>
           </div>
         ))}
