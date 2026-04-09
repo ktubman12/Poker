@@ -26,6 +26,12 @@ function App() {
   const [denomIndex, setDenomIndex] = useState(0);
   const denominations = ['5¢', '25¢', '$1', '$5', '$10'];
 
+  // Win Streak / Renaming logic
+  const [winStreak, setWinStreak] = useState(0);
+  const [gameTitle, setGameTitle] = useState('TUBMANPOKER');
+  const [isRenaming, setIsRenaming] = useState(false);
+  const [tempTitle, setTempTitle] = useState('');
+
   // Double Down states
   const [doubleDealerCard, setDoubleDealerCard] = useState<Card | null>(null);
   const [doublePlayerCards, setDoublePlayerCards] = useState<(Card | null)[]>([null, null, null, null]);
@@ -135,6 +141,18 @@ function App() {
       setWinningHand(result !== 'NONE' ? result : null);
       setWinAmount(payout);
       setCredits(prev => prev + payout);
+      
+      // Update streak
+      if (result !== 'NONE') {
+        const nextStreak = winStreak + 1;
+        setWinStreak(nextStreak);
+        if (nextStreak === 5) {
+          setIsRenaming(true);
+        }
+      } else {
+        setWinStreak(0);
+      }
+
       setGamePhase('gameover');
     }
   }, [gamePhase, credits, currentBet, hand, deck, heldIndices]);
@@ -194,12 +212,43 @@ function App() {
     setGamePhase('betting');
   };
 
+  const handleSaveTitle = () => {
+    if (tempTitle.trim()) {
+      setGameTitle(tempTitle.trim().toUpperCase());
+    }
+    setIsRenaming(false);
+    setWinStreak(0); // Reset after renaming
+  };
+
   return (
     <div className="modern-app">
+      {isRenaming && (
+        <div className="naming-overlay glass-panel">
+          <div className="naming-card">
+            <h2>🏆 STREAK MASTER!</h2>
+            <p>You won 5 hands in a row. Rename the game:</p>
+            <input 
+              autoFocus
+              className="naming-input"
+              value={tempTitle}
+              onChange={(e) => setTempTitle(e.target.value)}
+              placeholder="Enter new name..."
+              onKeyDown={(e) => e.key === 'Enter' && handleSaveTitle()}
+            />
+            <button className="action-btn primary" onClick={handleSaveTitle}>SAVE NAME</button>
+          </div>
+        </div>
+      )}
+
       <div className="layout-grid">
         <header className="game-header">
-           <h1 className="logo">TUBMAN<span className="accent">POKER</span></h1>
+           <h1 className="logo">{gameTitle}</h1>
            <div className="header-stats">
+                {winStreak > 0 && (
+                   <div className="streak-pill glass-panel">
+                     🔥 STREAK: {winStreak}
+                   </div>
+                )}
                 <div className="stat-pill glass-panel">JACKS OR BETTER</div>
            </div>
         </header>
