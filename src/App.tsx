@@ -28,7 +28,7 @@ function App() {
 
   // Win Streak / Renaming logic
   const [winStreak, setWinStreak] = useState(0);
-  const [gameTitle, setGameTitle] = useState('TUBMANPOKER');
+  const [gameTitle, setGameTitle] = useState(() => localStorage.getItem('poker_game_title') || 'TUBMANPOKER');
   const [isRenaming, setIsRenaming] = useState(false);
   const [tempTitle, setTempTitle] = useState('');
 
@@ -214,7 +214,9 @@ function App() {
 
   const handleSaveTitle = () => {
     if (tempTitle.trim()) {
-      setGameTitle(tempTitle.trim().toUpperCase());
+      const newTitle = tempTitle.trim().toUpperCase();
+      setGameTitle(newTitle);
+      localStorage.setItem('poker_game_title', newTitle);
     }
     setIsRenaming(false);
     setWinStreak(0); // Reset after renaming
