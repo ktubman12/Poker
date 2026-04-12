@@ -1,0 +1,151 @@
+.blackjack-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 20px;
+  position: relative;
+}
+
+.dealer-area, .player-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.cards-container {
+  display: flex;
+  gap: -60px; /* Overlap cards */
+  position: relative;
+}
+
+/* To actually make cards overlap properly based on index */
+.cards-container > .card-container {
+  margin-left: -50px;
+}
+.cards-container > .card-container:first-child {
+  margin-left: 0;
+}
+
+.blackjack-ribbon {
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+  margin: 10px 0;
+}
+
+.blackjack-ribbon h2 {
+  font-size: 1.5rem;
+  margin: 0;
+  letter-spacing: 2px;
+}
+
+.blackjack-ribbon p {
+  font-size: 1rem;
+  margin: 5px 0 0 0;
+  color: #ffd700;
+}
+
+.hand-total-bubble {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  position: absolute;
+  top: 50%;
+  left: -20px;
+  transform: translateY(-50%);
+  z-index: 10;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.bet-chips-area {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.chip-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.chip {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #e74c3c, #c0392b);
+  border: 4px dashed white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+.chip-label {
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.blackjack-actions {
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  flex-direction: column;
+}
+
+.bj-btn {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.1s, filter 0.2s;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.bj-btn:hover:not(:disabled) {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}
+
+.bj-btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.bj-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.btn-hit {
+  background: linear-gradient(to bottom, #2ecc71, #27ae60);
+}
+
+.btn-stand {
+  background: linear-gradient(to bottom, #e67e22, #d35400);
+}
+
+.btn-double {
+  background: linear-gradient(to bottom, #9b59b6, #8e44ad);
+}
