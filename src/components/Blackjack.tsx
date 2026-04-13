@@ -27,21 +27,24 @@ const PlayingCard = ({ card, hidden = false }: { card: Card | null, hidden?: boo
     );
   }
 
-  const isRed = card!.suit === '♥' || card!.suit === '♦';
+  const isRed = card!.suit === 'hearts' || card!.suit === 'diamonds';
+  const suitSymbols: Record<string, string> = { hearts: '♥', diamonds: '♦', spades: '♠', clubs: '♣' };
+  const symbol = suitSymbols[card!.suit];
+
   return (
     <div className="card-container">
       <div className="card front">
         <div className={`card-inner ${isRed ? 'red' : 'black'}`}>
           <div className="card-top">
             <span className="rank">{card!.rank}</span>
-            <span className="suit small">{card!.suit}</span>
+            <span className="suit small">{symbol}</span>
           </div>
           <div className="card-center">
-            <span className="suit large">{card!.suit}</span>
+            <span className="suit large">{symbol}</span>
           </div>
           <div className="card-bottom">
             <span className="rank">{card!.rank}</span>
-            <span className="suit small">{card!.suit}</span>
+            <span className="suit small">{symbol}</span>
           </div>
         </div>
       </div>
@@ -250,12 +253,6 @@ export const Blackjack: React.FC<BlackjackProps> = ({
 
       setDealerCards(currentDealerHand);
       setDeck(currentDeck);
-      
-      const activeBet = playerCards.length === 3 && credits >= currentBet && playerCards.some(c=> c === playerCards[2]) ? currentBet : currentBet; 
-      // Wait, double down increases the bet. Let's calculate activeBet cleanly.
-      // Did they double down? If they have 3 cards, and we entered dealerTurn immediately after...
-      // The safer way is to track actual Bet size.
-      // Let's rely on standard currentBet unless we fix it via state.
     }
   }, [gamePhase]);
   

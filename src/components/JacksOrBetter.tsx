@@ -38,7 +38,6 @@ export const JacksOrBetter: React.FC<JacksOrBetterProps> = ({
   const [winningHand, setWinningHand] = useState<HandType | null>(null);
 
   const [winStreak, setWinStreak] = useState(0);
-  const [gameTitle, setGameTitle] = useState(() => localStorage.getItem('poker_game_title') || 'TUBMANPOKER');
   const [isRenaming, setIsRenaming] = useState(false);
   const [tempTitle, setTempTitle] = useState('');
 
@@ -217,8 +216,8 @@ export const JacksOrBetter: React.FC<JacksOrBetterProps> = ({
   const handleSaveTitle = () => {
     if (tempTitle.trim()) {
       const newTitle = tempTitle.trim().toUpperCase();
-      setGameTitle(newTitle);
       localStorage.setItem('poker_game_title', newTitle);
+      window.location.reload();
     }
     setIsRenaming(false);
     setWinStreak(0);
